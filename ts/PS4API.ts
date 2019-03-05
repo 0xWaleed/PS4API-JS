@@ -22,12 +22,8 @@ export class PS4API {
     private ps4Endpoint: string = `http://${this.ip}:771`;
     public constructor(private ip: string) {}
 
-
-
-
     private callPS4(cmd:string, arg: string, callBack: Function, type:string = 'json') {
         let args = arg ? `?${arg}` : '';
-        console.log(`${this.ps4Endpoint}/${cmd}${args}`)
         Helper.get(`${this.ps4Endpoint}/${cmd}${args}`, function (r:XMLHttpRequest) {
 
                 let passingReturn = null;
@@ -42,7 +38,7 @@ export class PS4API {
                         passingReturn = Buffer.from(r.responseText, 'base64');
                         break;
                     default:
-                        passingReturn = null;
+                        passingReturn = {};
                         break;
                 }
 
@@ -78,14 +74,12 @@ export class PS4API {
     }
 
     public readMemory(pid: number, address: bigint, length: number, callBack: Function) {
-        let bigInteger = BigInt(address).toString(16);
-        this.callPS4(PS4Command.READ_MEMORY, `pid=${pid}&address=${bigInteger}&length=${length}`, callBack, 'base64');
+        this.callPS4(PS4Command.READ_MEMORY, `pid=${pid}&address=${address}&length=${length}`, callBack, 'base64');
     }
 
     public writeMemory(pid: number, address: bigint, data:Buffer, length: number, callBack: Function) {
         let dataAsBase64 = data.toString('base64');
-        let bigInteger = BigInt(address).toString(16);
-        this.callPS4(PS4Command.WRITE_MEMORY,`pid=${pid}&address=${bigInteger}&length=${length}&data=${dataAsBase64}`, callBack, null);
+        this.callPS4(PS4Command.WRITE_MEMORY,`pid=${pid}&address=${address}&length=${length}&data=${dataAsBase64}`, callBack, null);
     }
 
     public notify(messageType:number, message:string, callBack:Function){
@@ -105,7 +99,6 @@ export class PS4API {
     }
 
     public freeMemory(pid:number, address:bigint, length:number, callBack: Function){
-        let bigInteger = BigInt(address).toString(16);
-        this.callPS4(PS4Command.FREE_MEMORY,`pid=${pid}&address=${bigInteger}&length=${length}`, callBack, null)
+        this.callPS4(PS4Command.FREE_MEMORY,`pid=${pid}&address=${address}&length=${length}`, callBack, null)
     }
 }
