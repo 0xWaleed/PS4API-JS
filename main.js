@@ -9,7 +9,6 @@ let {PS4API, PS4Command} =  require('./js/PS4API');
  ps4.getProcessByName('default.elf', onEventResponse);
 
 
-
 function onEventResponse(r) {
     console.log(r);
 }
