@@ -13,7 +13,7 @@ var PS4Command;
     PS4Command["READ_MEMORY"] = "read";
     PS4Command["GET_PROCESS_LIST"] = "list";
     PS4Command["GET_PROCESS_INFO"] = "info";
-    PS4Command["GET_PROCESS_MAP"] = "map";
+    PS4Command["GET_PROCESS_MAP"] = "mapping";
     PS4Command["GET_PROCESS_BY_NAME"] = "process_by_name";
 })(PS4Command = exports.PS4Command || (exports.PS4Command = {}));
 class PS4API {
@@ -23,6 +23,7 @@ class PS4API {
     }
     callPS4(cmd, arg, callBack, type = 'json') {
         let args = arg ? `?${arg}` : '';
+        console.log(`${this.ps4Endpoint}/${cmd}${args}`);
         Helper_1.Helper.get(`${this.ps4Endpoint}/${cmd}${args}`, function (r) {
             let passingReturn = null;
             if (r.status !== HTTP_STATUS_OK)

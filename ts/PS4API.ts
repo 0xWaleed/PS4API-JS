@@ -12,7 +12,7 @@ export enum PS4Command{
     READ_MEMORY = 'read',
     GET_PROCESS_LIST = 'list',
     GET_PROCESS_INFO = 'info',
-    GET_PROCESS_MAP = 'map',
+    GET_PROCESS_MAP = 'mapping',
     GET_PROCESS_BY_NAME = 'process_by_name'
 }
 
@@ -27,6 +27,7 @@ export class PS4API {
 
     private callPS4(cmd:string, arg: string, callBack: Function, type:string = 'json') {
         let args = arg ? `?${arg}` : '';
+        console.log(`${this.ps4Endpoint}/${cmd}${args}`)
         Helper.get(`${this.ps4Endpoint}/${cmd}${args}`, function (r:XMLHttpRequest) {
 
                 let passingReturn = null;
